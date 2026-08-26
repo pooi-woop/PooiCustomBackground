@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<AssemblyName>PooiCustomBackground</AssemblyName>
+		<RootNamespace>PooiBg</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<OutputPath>..\..\Assemblies\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4871" />
+		<PackageReference Include="Lib.Harmony" Version="2.*" ExcludeAssets="runtime" />
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>
