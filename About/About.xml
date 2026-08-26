@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <packageId>pooiwop.custombackground</packageId>
+  <name>自定义主菜单背景</name>
+  <author>PooiWoop</author>
+  <description>
+    允许你用自己的图片作为 RimWorld 主菜单背景，支持多图随机轮换。
+
+    使用方法（二选一）：
+    1. 进入 Mod 设置，点击“添加图片”，选择你要用的图片（可多选）；
+    2. 或把 png / jpg 图片直接放进本 Mod 目录下的 Backgrounds 文件夹，再点“重新扫描”。
+
+    进入 Mod 设置后，在“当前背景”里选择“随机轮换”，或指定某一张图片。
+
+    提示：建议使用 16:9 左右的横图，效果最佳。
+  </description>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <downloadUrl>https://github.com/pardeike/Harmony</downloadUrl>
+      <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=818773962</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+</ModMetaData>
