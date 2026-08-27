@@ -53,7 +53,8 @@ namespace PooiBg
 			List<string> found = new List<string>();
 			try
 			{
-				found = Directory.GetFiles(dir)
+				// 递归扫描，用户把图片（含放在子文件夹里的）放进 Backgrounds 都能被识别。
+				found = Directory.GetFiles(dir, "*", SearchOption.AllDirectories)
 					.Where(f => Exts.Contains(Path.GetExtension(f).ToLowerInvariant()))
 					.OrderBy(f => f).ToList();
 			}
