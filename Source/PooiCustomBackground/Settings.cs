@@ -53,6 +53,8 @@ namespace PooiBg
 			string display = selectedFile == "" ? "多图随机轮换" : selectedFile;
 			if (ls.ButtonText("当前背景：" + display))
 			{
+				// 打开下拉前先重扫，保证游戏运行中新加的图片立即出现在列表里。
+				BackgroundManager.Rescan();
 				List<FloatMenuOption> opts = new List<FloatMenuOption>();
 				opts.Add(new FloatMenuOption("多图随机轮换", delegate { selectedFile = ""; }));
 				foreach (string name in BackgroundManager.AvailableFileNames())
