@@ -21,6 +21,7 @@ namespace PooiBg
 		private string currentDir;
 		private readonly HashSet<string> selectedFiles = new HashSet<string>();
 		private string statusMsg = "";
+		private Vector2 scrollPos;
 
 		public Dialog_BackgroundFileBrowser()
 		{
@@ -63,7 +64,9 @@ namespace PooiBg
 
 			List<string> dirs = new List<string>();
 			List<string> images = new List<string>();
-			bool atRoot = (currentDir == "" || Path.GetDirectoryName(currentDir) == null);
+			// 注意：不能把 Path.GetDirectoryName(currentDir)==null 当作“在根目录”，
+			// 因为 Windows 上 "C:\" 的父目录为 null，会被误判成盘符根目录，导致无法进入任何盘。
+			bool atRoot = (currentDir == "");
 			if (atRoot)
 			{
 				try { foreach (string d in Environment.GetLogicalDrives()) dirs.Add(d); } catch { }
@@ -80,10 +83,17 @@ namespace PooiBg
 			}
 
 			Widgets.DrawMenuSection(listRect);
-			Listing_Standard ls = new Listing_Standard();
-			ls.Begin(listRect);
-			ls.ColumnWidth = listRect.width - 22f;
 
+			// 内容高度 = 文件夹按钮(30/行) + 图片勾选行(26/行)，超出可视区域用滚动条下滑浏览。
+			float contentHeight = dirs.Count * 30f + images.Count * 26f + 8f;
+			Rect viewRect = new Rect(0f, 0f, listRect.width - 16f, contentHeight);
+			Widgets.BeginScrollView(listRect, ref scrollPos, viewRect, true);
+
+			Listing_Standard ls = new Listing_Standard();
+			ls.Begin(viewRect);
+			ls.ColumnWidth = viewRect.width;
+
+			bool nav = false;
 			foreach (string d in dirs.OrderBy(x => x))
 			{
 				string label = Path.GetFileName(d) + "/";
@@ -92,20 +102,24 @@ namespace PooiBg
 				{
 					currentDir = d;
 					selectedFiles.Clear();
-					ls.End();
-					return;
+					nav = true;
+					break;
 				}
 			}
 
-			foreach (string img in images.OrderBy(x => x))
+			if (!nav)
 			{
-				string name = Path.GetFileName(img);
-				bool sel = selectedFiles.Contains(img);
-				ls.CheckboxLabeled(name, ref sel, null, 26f, 1f);
-				if (sel) selectedFiles.Add(img); else selectedFiles.Remove(img);
+				foreach (string img in images.OrderBy(x => x))
+				{
+					string name = Path.GetFileName(img);
+					bool sel = selectedFiles.Contains(img);
+					ls.CheckboxLabeled(name, ref sel, null, 26f, 1f);
+					if (sel) selectedFiles.Add(img); else selectedFiles.Remove(img);
+				}
 			}
 
 			ls.End();
+			Widgets.EndScrollView();
 
 			// 底部：状态 + 添加 + 关闭
 			Rect bottom = new Rect(inRect.x, inRect.y + inRect.height - 34f, inRect.width, 26f);
